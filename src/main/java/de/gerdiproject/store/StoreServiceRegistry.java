@@ -47,7 +47,7 @@ public class StoreServiceRegistry {
         new HashMap<String, StoreServiceInfo>();
 
     /**
-     * entry point for the apache spark framework - ReST API is defined via lambdas
+     * Entry point for the Apache Spark framework - ReST API is defined via lambdas.
      */
     public static void main(final String[] args) {
         

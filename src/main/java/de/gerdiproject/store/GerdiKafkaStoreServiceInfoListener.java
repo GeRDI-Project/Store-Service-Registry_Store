@@ -54,6 +54,8 @@ public class GerdiKafkaStoreServiceInfoListener extends Thread{
      *
      * This is not thread-safe - but considered unharmful, since there is only
      * one thread writing into the map.
+     *
+     * @param map HashMap used to sync between webserver and thread
      */
     public GerdiKafkaStoreServiceInfoListener(HashMap<String, StoreServiceInfo> map) {
        this.map = map;
