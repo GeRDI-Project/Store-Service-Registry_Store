@@ -2,6 +2,7 @@ package de.gerdiproject.store;
 
 import de.gerdiproject.store.data.model.StoreServiceInfo;
 import de.gerdiproject.store.CharSequenceDeserializer;
+import de.gerdiproject.store.GerdiKafkaStoreServiceInfoListener;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.HashMap;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
@@ -46,19 +46,12 @@ public class StoreServiceRegistry {
             LOGGER.info("Persisted storeService hash has no entries");
         }
 
+        GerdiKafkaStoreServiceInfoListener listener = new GerdiKafkaStoreServiceInfoListener(CACHE_MAP);
+        listener.start();
+
         get("/storeservices", (req, res) -> {
             res.status(200);
             return gsonBuilder.toJson(CACHE_MAP);
         });
     }
-
-    public static void persist(String loc, HashMap<String, StoreServiceInfo> curState) {
-        Gson gson = new Gson();
-        try {
-            gson.toJson(curState, new FileWriter(loc));
-        } catch (java.io.IOException e) {
-                LOGGER.warn("Could not save here: " + loc);
-        }
-    }
-    //TODO: Kafka-Thread updating the StoreService data structure.
 }
